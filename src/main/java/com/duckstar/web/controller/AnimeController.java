@@ -19,8 +19,8 @@ public class AnimeController {
 
     private final AnimeService animeService;
 
-    @Operation(summary = "애니 단건 조회 API",
-            description = "애니메이션 단건 정보를 조회합니다.")
+    @Operation(summary = "애니 홈 API",
+            description = "애니메이션 홈 정보를 조회합니다.")
     @GetMapping("/{animeId}")
     public ApiResponse<AnimeResponseDto.AnimeHomeDto> getAnimeDetails(
             @PathVariable Long animeId) {

@@ -1,5 +1,6 @@
 package com.duckstar.web.dto;
 
+import com.duckstar.domain.AnimeStar;
 import com.duckstar.domain.enums.DayOfWeekShort;
 import com.duckstar.domain.enums.Medium;
 import com.duckstar.web.dto.AniCommentResponseDto.AniCommentPreviewDto;
@@ -8,8 +9,6 @@ import lombok.*;
 
 import java.util.List;
 import java.util.Map;
-
-import static com.duckstar.web.dto.CharacterResponseDto.*;
 
 public class AnimeResponseDto {
 
@@ -57,5 +56,20 @@ public class AnimeResponseDto {
         Integer star_4_0;
         Integer star_4_5;
         Integer star_5_0;
+
+        public static StarDistributeDto from(AnimeStar animeStar) {
+            return StarDistributeDto.builder()
+                    .star_0_5(animeStar.getStar_0_5())
+                    .star_1_0(animeStar.getStar_1_0())
+                    .star_1_5(animeStar.getStar_1_5())
+                    .star_2_0(animeStar.getStar_2_0())
+                    .star_2_5(animeStar.getStar_2_5())
+                    .star_3_0(animeStar.getStar_3_0())
+                    .star_3_5(animeStar.getStar_3_5())
+                    .star_4_0(animeStar.getStar_4_0())
+                    .star_4_5(animeStar.getStar_4_5())
+                    .star_5_0(animeStar.getStar_5_0())
+                    .build();
+        }
     }
 }
