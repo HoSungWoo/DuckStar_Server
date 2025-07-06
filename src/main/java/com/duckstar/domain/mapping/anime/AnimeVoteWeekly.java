@@ -1,6 +1,7 @@
 package com.duckstar.domain.mapping.anime;
 
 import com.duckstar.domain.Anime;
+import com.duckstar.domain.AnimeStar;
 import com.duckstar.domain.Member;
 import com.duckstar.domain.common.BaseEntity;
 import jakarta.persistence.*;
@@ -42,4 +43,11 @@ public class AnimeVoteWeekly extends BaseEntity {
     private Anime anime;
 
     private Float rating;
+
+    //==비즈니스 로직==//
+
+    public void animeStarCount(Float rating) {
+        AnimeStar animeStar = anime.getAnimeStar();
+        animeStar.starCount(rating);
+    }
 }

@@ -1,6 +1,7 @@
 package com.duckstar.domain.mapping.character;
 
 import com.duckstar.domain.Character;
+import com.duckstar.domain.CharacterStar;
 import com.duckstar.domain.Member;
 import com.duckstar.domain.common.BaseEntity;
 import jakarta.persistence.*;
@@ -42,4 +43,9 @@ public class CharacterVoteWeekly extends BaseEntity {
     private Character character;
 
     private Float rating;
+
+    public void characterStarCount(Float rating) {
+        CharacterStar characterStar = character.getCharacterStar();
+        characterStar.starCount(rating);
+    }
 }
