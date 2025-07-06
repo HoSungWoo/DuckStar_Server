@@ -28,7 +28,7 @@ public class Member extends BaseEntity {
     private String name;
 
     @Column(length = 500)
-    private String profileImageUrl;
+    private String profileImgUrl;
 
     /**
      * 소셜 로그인

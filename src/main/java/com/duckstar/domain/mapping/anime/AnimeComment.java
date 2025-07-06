@@ -3,8 +3,13 @@ package com.duckstar.domain.mapping.anime;
 import com.duckstar.domain.Anime;
 import com.duckstar.domain.Member;
 import com.duckstar.domain.common.BaseEntity;
+import com.duckstar.domain.enums.UserCommentType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.yaml.snakeyaml.comments.CommentType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,6 +32,12 @@ public class AnimeComment extends BaseEntity {
 
     private Boolean isSpoiler;
 
+    private UserCommentType commentType;
+
     @Column(length = 300, nullable = false)
     private String body;
+
+    @OneToMany(mappedBy = "animeComment", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<AnimeCommentLike> animeCommentLikes = new ArrayList<>();
 }

@@ -66,7 +66,7 @@ public class Anime extends BaseEntity {
     @Column(length = 5)
     private String minAge;    // 시청 등급
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "anime")
     private AnimeStar animeStar;
 
     @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL, orphanRemoval = true)
