@@ -19,6 +19,7 @@ public enum ErrorStatus implements BaseErrorCode {
 
     // 애니메이션
     ANIME_STAR_NOT_VALID(HttpStatus.BAD_REQUEST, "ANIME4001", "잘못된 별점 형식입니다."),
+    ANIME_NOT_FOUND(HttpStatus.BAD_REQUEST, "ANIME4002", "존재하지 않는 애니메이션입니다."),
 
     // 캐릭터
     CHARACTER_STAR_NOT_VALID(HttpStatus.BAD_REQUEST, "CHARACTER4001", "잘못된 별점 형식입니다.")
