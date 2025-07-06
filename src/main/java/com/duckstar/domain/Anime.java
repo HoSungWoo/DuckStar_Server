@@ -66,6 +66,9 @@ public class Anime extends BaseEntity {
     @Column(length = 5)
     private String minAge;    // 시청 등급
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private AnimeStar animeStar;
+
     @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<AnimeImg> animeImgs = new ArrayList<>();

@@ -32,6 +32,9 @@ public class Character extends BaseEntity {
     @JoinColumn(name = "anime_id", nullable = false)
     private Anime anime;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private CharacterStar characterStar;
+
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<CharacterImg> characterImgs = new ArrayList<>();
