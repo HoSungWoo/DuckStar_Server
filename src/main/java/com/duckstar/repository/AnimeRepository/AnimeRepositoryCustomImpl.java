@@ -22,16 +22,16 @@ import static com.duckstar.web.dto.AnimeResponseDto.*;
 public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
     private final JPAQueryFactory queryFactory;
     private final QAnime anime = QAnime.anime;
+    private final QAnimeStar animeStar = QAnimeStar.animeStar;
     private final QAnimeImg animeImg = QAnimeImg.animeImg;
     private final QCharacter character = QCharacter.character;
     private final QCharacterImg characterImg = QCharacterImg.characterImg;
 
-    // 1. animeData → Tuple이 길어질 경우, AnimeInfoDto 같은 DTO로 projection해도 됨
-    // 2. characterImgExpr → isMain = true 조건 컬럼으로도 대체 가능 (쿼리 최적화시)
-    // 3. 향후 댓글 쿼리도 CommentPreviewDto로 projection하면 같은 방식으로 확장 가능
+    // 1. characterImgExpr → isMain = true 조건 컬럼으로도 대체 가능 (쿼리 최적화 가능) - 즉 이미지에 isMain 필드 두자는 뜻
+    // 2. 향후 댓글 쿼리도 CommentPreviewDto로 projection할지 여부 선택
     public AnimeHomeDto getAnimeHomeDtoById(Long animeId) {
 
-        // Anime + 이미지 리스트
+        // Anime, AnimeStar join
         Tuple animeData = queryFactory
                 .select(anime.id,
                         anime.medium,
@@ -46,8 +46,20 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
                         anime.dayOfWeek,
                         anime.officalSite,
                         anime.otts,
-                        anime.minAge)
+                        anime.minAge,
+                        animeStar.star_0_5,
+                        animeStar.star_1_0,
+                        animeStar.star_1_5,
+                        animeStar.star_2_0,
+                        animeStar.star_2_5,
+                        animeStar.star_3_0,
+                        animeStar.star_3_5,
+                        animeStar.star_4_0,
+                        animeStar.star_4_5,
+                        animeStar.star_5_0)
                 .from(anime)
+                .leftJoin(anime.animeStar, animeStar)
+                .on(animeStar.anime.id.eq(anime.id))
                 .where(anime.id.eq(animeId))
                 .fetchOne();
 
@@ -56,11 +68,7 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
             throw new AnimeHandler(ErrorStatus.ANIME_NOT_FOUND);
         }
 
-        AnimeStar animeStar = queryFactory
-                .selectFrom(QAnimeStar.animeStar)
-                .where(QAnimeStar.animeStar.anime.id.eq(animeId))
-                .fetchOne();
-
+        // Anime 이미지 리스트
         List<String> imageUrls = queryFactory
                 .select(animeImg.imageUrl)
                 .from(animeImg)
@@ -68,7 +76,8 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
                 .orderBy(animeImg.id.asc()) // or isMain, priority 등
                 .fetch();
 
-        // Character + 대표 이미지 1장
+        // Character 리스트 QueryProjection
+        // Character 대표 이미지 1장
         JPQLQuery<String> characterImgExpr = JPAExpressions
                 .select(characterImg.imageUrl)
                 .from(characterImg)
@@ -76,6 +85,7 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
                 .orderBy(characterImg.id.asc())
                 .limit(1);
 
+        // Characters
         List<CharacterPreviewDto> characters = queryFactory
                 .select(new QCharacterPreviewDto(
                         character.id,
@@ -106,7 +116,18 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
                 .minAge(animeData.get(anime.minAge))
 
                 .imageUrls(imageUrls)
-                .starDistributeDto(StarDistributeDto.from(animeStar))
+                .starDistributeDto(StarDistributeDto.builder()
+                        .star_0_5(animeData.get(animeStar.star_0_5))
+                        .star_1_0(animeData.get(animeStar.star_1_0))
+                        .star_1_5(animeData.get(animeStar.star_1_5))
+                        .star_2_0(animeData.get(animeStar.star_2_0))
+                        .star_2_5(animeData.get(animeStar.star_2_5))
+                        .star_3_0(animeData.get(animeStar.star_3_0))
+                        .star_3_5(animeData.get(animeStar.star_3_5))
+                        .star_4_0(animeData.get(animeStar.star_4_0))
+                        .star_4_5(animeData.get(animeStar.star_4_5))
+                        .star_5_0(animeData.get(animeStar.star_5_0))
+                        .build())
                 .characterPreviewDtos(characters)
                 .aniCommentPreviewDtos(Collections.emptyList()) // TODO
                 .build();
