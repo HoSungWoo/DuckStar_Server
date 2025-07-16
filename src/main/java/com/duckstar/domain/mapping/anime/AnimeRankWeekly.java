@@ -28,6 +28,7 @@ public class AnimeRankWeekly {
     // (받은 별 개수 / n주차 전체 별 개수) * 100
     private Float starTurnout;
 
+    @Column(name = "`rank`")
     private Integer rank;
 
     private Integer rankDiff;

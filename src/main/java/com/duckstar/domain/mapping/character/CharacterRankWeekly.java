@@ -22,13 +22,14 @@ public class CharacterRankWeekly {
     private Week week;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "character_id", nullable = false)
+    @JoinColumn(name = "ani_character_id", nullable = false)
     private Character character;
 
     // 투표율과 순위 정보
     // (받은 별 개수 / n주차 전체 별 개수) * 100
     private Float starTurnout;
 
+    @Column(name = "`rank`")
     private Integer rank;
 
     private Integer rankDiff;

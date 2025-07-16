@@ -14,7 +14,7 @@ public class RankController {
 
     private final AnimeService animeService;
 
-    public ApiResponse<> getAnimeRanksByWeek(/*PathVariable*/) {
-
-    }
+//    public ApiResponse<> getAnimeRanksByWeek(/*PathVariable*/) {
+//
+//    }
 }

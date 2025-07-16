@@ -22,7 +22,7 @@ public class CharacterComment extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "character_id", nullable = false)
+    @JoinColumn(name = "ani_character_id", nullable = false)
     private Character character;
 
     @ManyToOne(fetch = FetchType.LAZY)

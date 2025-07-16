@@ -14,8 +14,10 @@ import lombok.*;
 public class AnimeStar extends BaseEntity {
 
     @Id
+    private Long id;
+    @MapsId  // Anime의 id와 동일
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "anime_id", nullable = false)
+    @JoinColumn(name = "anime_id")
     private Anime anime;
 
     // 별점 분포

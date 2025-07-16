@@ -15,8 +15,10 @@ import lombok.*;
 public class CharacterStar extends BaseEntity {
 
     @Id
+    private Long id;
+    @MapsId  // Character의 id와 동일
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "character_id", nullable = false)
+    @JoinColumn(name = "ani_character_id", nullable = false)
     private Character character;
 
     // 별점 분포

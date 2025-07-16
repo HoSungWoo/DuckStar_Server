@@ -19,6 +19,6 @@ public class CharacterImg extends BaseEntity {
     private String imageUrl;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "character_id", nullable = false)
+    @JoinColumn(name = "ani_character_id", nullable = false)
     private Character character;
 }
