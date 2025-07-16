@@ -1,9 +1,9 @@
 package com.duckstar.domain;
 
 import com.duckstar.domain.common.BaseEntity;
-import com.duckstar.domain.mapping.anime.AnimeVoteWeekly;
+import com.duckstar.domain.mapping.anime.AnimeRankWeekly;
 import com.duckstar.domain.mapping.character.CharacterComment;
-import com.duckstar.domain.mapping.character.CharacterVoteWeekly;
+import com.duckstar.domain.mapping.character.CharacterRankWeekly;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,15 +35,15 @@ public class Character extends BaseEntity {
     @OneToOne(mappedBy = "character")
     private CharacterStar characterStar;
 
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<CharacterRankWeekly> characterRankWeeklies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     @Builder.Default
     private List<CharacterImg> characterImgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     @Builder.Default
     private List<CharacterComment> characterComments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<CharacterVoteWeekly> characterVoteWeeklies = new ArrayList<>();
 }

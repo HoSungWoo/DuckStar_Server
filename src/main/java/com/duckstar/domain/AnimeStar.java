@@ -19,8 +19,8 @@ public class AnimeStar extends BaseEntity {
     private Anime anime;
 
     // 별점 분포
-    @Builder.Default private Integer star_1_0 = 0;
     @Builder.Default private Integer star_0_5 = 0;
+    @Builder.Default private Integer star_1_0 = 0;
     @Builder.Default private Integer star_1_5 = 0;
     @Builder.Default private Integer star_2_0 = 0;
     @Builder.Default private Integer star_2_5 = 0;

@@ -27,6 +27,8 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
     private final QCharacter character = QCharacter.character;
     private final QCharacterImg characterImg = QCharacterImg.characterImg;
 
+    // 0. 제공하는 별 데이터는 실제 데이터이면 절대 ❌ (비밀 투표. 실시간성 띠면 안됨)
+    //     -- 직전, 이전 ... 주차 등등 데이터? 기획 논의 필요
     // 1. characterImgExpr → isMain = true 조건 컬럼으로도 대체 가능 (쿼리 최적화 가능) - 즉 이미지에 isMain 필드 두자는 뜻
     // 2. 향후 댓글 쿼리도 CommentPreviewDto로 projection할지 여부 선택
     public AnimeHomeDto getAnimeHomeDtoById(Long animeId) {
@@ -63,7 +65,6 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
                 .where(anime.id.eq(animeId))
                 .fetchOne();
 
-        // 커스텀 애노테이션 고려 가능
         if (animeData == null) {
             throw new AnimeHandler(ErrorStatus.ANIME_NOT_FOUND);
         }

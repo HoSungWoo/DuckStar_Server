@@ -16,9 +16,5 @@ public class CharacterService {
 
     private final CharacterRepository characterRepository;
 
-    public List<CharacterPreviewDto> getCharacterPreviewDtos(Anime anime) {
 
-//        List<Character> characters = characterRepository.getCharactersByAnimeId(anime.getId());
-        return null;
-    }
 }

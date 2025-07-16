@@ -3,13 +3,12 @@ package com.duckstar.domain;
 import com.duckstar.domain.common.BaseEntity;
 import com.duckstar.domain.mapping.anime.AnimeComment;
 import com.duckstar.domain.mapping.anime.AnimeCommentLike;
-import com.duckstar.domain.mapping.anime.AnimeVoteWeekly;
 import com.duckstar.domain.mapping.character.CharacterComment;
 import com.duckstar.domain.mapping.character.CharacterCommentLike;
-import com.duckstar.domain.mapping.character.CharacterVoteWeekly;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +29,10 @@ public class Member extends BaseEntity {
     @Column(length = 500)
     private String profileImgUrl;
 
+    private LocalDateTime lastAnimeVoteAt;
+
+    private LocalDateTime lastCharacterVoteAt;
+
     /**
      * 소셜 로그인
      */
@@ -48,30 +51,22 @@ public class Member extends BaseEntity {
     /**
      * 애니메이션
      */
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @Builder.Default
     private List<AnimeComment> animeComments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @Builder.Default
     private List<AnimeCommentLike> animeCommentLikes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<AnimeVoteWeekly> animeVoteWeeklies = new ArrayList<>();
 
     /**
      * 캐릭터
      */
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @Builder.Default
     private List<CharacterComment> characterComments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     @Builder.Default
     private List<CharacterCommentLike> characterCommentLikes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<CharacterVoteWeekly> CharacterVoteWeeklies = new ArrayList<>();
 }

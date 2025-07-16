@@ -4,7 +4,7 @@ import com.duckstar.domain.common.BaseEntity;
 import com.duckstar.domain.enums.DayOfWeekShort;
 import com.duckstar.domain.enums.Medium;
 import com.duckstar.domain.mapping.anime.AnimeComment;
-import com.duckstar.domain.mapping.anime.AnimeVoteWeekly;
+import com.duckstar.domain.mapping.anime.AnimeRankWeekly;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -69,19 +69,19 @@ public class Anime extends BaseEntity {
     @OneToOne(mappedBy = "anime")
     private AnimeStar animeStar;
 
-    @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL)
+    @Builder.Default
+    private List<AnimeRankWeekly> animeRankWeeklies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL)
     @Builder.Default
     private List<AnimeImg> animeImgs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL)
     @Builder.Default
     private List<Character> characters = new ArrayList<>();
 
-    @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL)
     @Builder.Default
     private List<AnimeComment> animeComments = new ArrayList<>();
-
-    @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<AnimeVoteWeekly> animeVoteWeeklies = new ArrayList<>();
 }
