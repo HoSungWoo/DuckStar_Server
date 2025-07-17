@@ -31,6 +31,8 @@ public class CharacterComment extends BaseEntity {
 
     private Boolean isSpoiler;
 
+    @Column(length = 10)
+    @Enumerated(EnumType.STRING)
     private UserCommentType commentType;
 
     @Column(length = 300, nullable = false)

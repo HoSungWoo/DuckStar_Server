@@ -21,18 +21,31 @@ public class AnimeStar extends BaseEntity {
     private Anime anime;
 
     // 별점 분포
-    @Builder.Default private Integer star_0_5 = 0;
-    @Builder.Default private Integer star_1_0 = 0;
-    @Builder.Default private Integer star_1_5 = 0;
-    @Builder.Default private Integer star_2_0 = 0;
-    @Builder.Default private Integer star_2_5 = 0;
-    @Builder.Default private Integer star_3_0 = 0;
-    @Builder.Default private Integer star_3_5 = 0;
-    @Builder.Default private Integer star_4_0 = 0;
-    @Builder.Default private Integer star_4_5 = 0;
-    @Builder.Default private Integer star_5_0 = 0;
+    private Integer star_0_5;
+    private Integer star_1_0;
+    private Integer star_1_5;
+    private Integer star_2_0;
+    private Integer star_2_5;
+    private Integer star_3_0;
+    private Integer star_3_5;
+    private Integer star_4_0;
+    private Integer star_4_5;
+    private Integer star_5_0;
 
     //==비즈니스 로직==//
+
+    public void starInit() {
+        star_0_5 = 0;
+        star_1_0 = 0;
+        star_1_5 = 0;
+        star_2_0 = 0;
+        star_2_5 = 0;
+        star_3_0 = 0;
+        star_3_5 = 0;
+        star_4_0 = 0;
+        star_4_5 = 0;
+        star_5_0 = 0;
+    }
 
     public void starCount(Float rating) {
         int switchRating = Math.round(rating * 2);
