@@ -36,14 +36,14 @@ public class AnimeRankWeekly {
     // 부가 정보
     private Float starAverage;
 
-    private Integer star_0_5 = 0;
-    private Integer star_1_0 = 0;
-    private Integer star_1_5 = 0;
-    private Integer star_2_0 = 0;
-    private Integer star_2_5 = 0;
-    private Integer star_3_0 = 0;
-    private Integer star_3_5 = 0;
-    private Integer star_4_0 = 0;
-    private Integer star_4_5 = 0;
-    private Integer star_5_0 = 0;
+    private Integer star_0_5;
+    private Integer star_1_0;
+    private Integer star_1_5;
+    private Integer star_2_0;
+    private Integer star_2_5;
+    private Integer star_3_0;
+    private Integer star_3_5;
+    private Integer star_4_0;
+    private Integer star_4_5;
+    private Integer star_5_0;
 }
