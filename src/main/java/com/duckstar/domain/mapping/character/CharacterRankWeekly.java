@@ -1,6 +1,5 @@
 package com.duckstar.domain.mapping.character;
 
-import com.duckstar.domain.Anime;
 import com.duckstar.domain.Character;
 import com.duckstar.domain.Week;
 import jakarta.persistence.*;
@@ -25,9 +24,9 @@ public class CharacterRankWeekly {
     @JoinColumn(name = "ani_character_id", nullable = false)
     private Character character;
 
-    // 투표율과 순위 정보
+    // 득표율과 순위 정보
     // (받은 별 개수 / n주차 전체 별 개수) * 100
-    private Float starTurnout;
+    private Float starPercent;
 
     @Column(name = "`rank`")
     private Integer rank;

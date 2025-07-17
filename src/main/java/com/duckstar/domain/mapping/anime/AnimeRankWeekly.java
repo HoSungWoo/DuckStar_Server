@@ -24,9 +24,9 @@ public class AnimeRankWeekly {
     @JoinColumn(name = "anime_id", nullable = false)
     private Anime anime;
 
-    // 투표율과 순위 정보
+    // 득표율과 순위 정보
     // (받은 별 개수 / n주차 전체 별 개수) * 100
-    private Float starTurnout;
+    private Float starPercent;
 
     @Column(name = "`rank`")
     private Integer rank;

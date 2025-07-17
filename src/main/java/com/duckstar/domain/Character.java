@@ -33,15 +33,14 @@ public class Character extends BaseEntity {
     private Anime anime;
 
     @OneToOne(mappedBy = "character")
+    private CharacterImg characterImg;
+
+    @OneToOne(mappedBy = "character")
     private CharacterStar characterStar;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     @Builder.Default
     private List<CharacterRankWeekly> characterRankWeeklies = new ArrayList<>();
-
-    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<CharacterImg> characterImgs = new ArrayList<>();
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     @Builder.Default

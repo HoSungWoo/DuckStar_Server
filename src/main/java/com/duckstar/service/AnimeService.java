@@ -6,8 +6,6 @@ import com.duckstar.domain.Anime;
 import com.duckstar.domain.AnimeImg;
 import com.duckstar.domain.AnimeStar;
 import com.duckstar.repository.AnimeRepository.AnimeRepository;
-import com.duckstar.web.dto.AnimeResponseDto;
-import com.duckstar.web.dto.AnimeResponseDto.StarDistributeDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

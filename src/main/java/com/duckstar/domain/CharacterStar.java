@@ -49,7 +49,8 @@ public class CharacterStar extends BaseEntity {
             case 9 -> this.star_4_5 += 1;
             case 10 -> this.star_5_0 += 1;
 
-            default -> throw new CharacterHandler(ErrorStatus.CHARACTER_STAR_NOT_VALID);
+            default -> throw new CharacterHandler(
+                    ErrorStatus.CHARACTER_STAR_NOT_VALID);
         }
     }
 }

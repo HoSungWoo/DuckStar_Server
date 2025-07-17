@@ -18,7 +18,10 @@ public class AnimeImg extends BaseEntity {
     @Column(length = 500)
     private String imageUrl;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Column(length = 500)
+    private String thumbnailUrl;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "anime_id", nullable = false)
     private Anime anime;
 }

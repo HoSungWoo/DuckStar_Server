@@ -11,15 +11,15 @@ public class CharacterPreviewDto {
     String nameKanji;
     String cv;
 
-    String imageUrl;
+    String thumbnailUrl;
 
     @QueryProjection
-    public CharacterPreviewDto(Long characterId, String nameKor, String nameEng, String nameKanji, String cv, String imageUrl) {
+    public CharacterPreviewDto(Long characterId, String nameKor, String nameEng, String nameKanji, String cv, String thumbnailUrl) {
         this.characterId = characterId;
         this.nameKor = nameKor;
         this.nameEng = nameEng;
         this.nameKanji = nameKanji;
         this.cv = cv;
-        this.imageUrl = imageUrl;
+        this.thumbnailUrl = thumbnailUrl;
     }
 }

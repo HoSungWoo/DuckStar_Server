@@ -5,9 +5,11 @@ import com.duckstar.apiPayload.exception.handler.AnimeHandler;
 import com.duckstar.domain.*;
 import com.duckstar.web.dto.CharacterPreviewDto;
 import com.duckstar.web.dto.QCharacterPreviewDto;
+import com.duckstar.web.dto.StarInfoDto;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -16,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.duckstar.web.dto.AnimeResponseDto.*;
+import static com.duckstar.web.dto.StarInfoDto.*;
 
 @Repository
 @RequiredArgsConstructor
@@ -49,6 +52,7 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
                         anime.officalSite,
                         anime.otts,
                         anime.minAge,
+                        animeImg.imageUrl,
                         animeStar.star_0_5,
                         animeStar.star_1_0,
                         animeStar.star_1_5,
@@ -60,8 +64,10 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
                         animeStar.star_4_5,
                         animeStar.star_5_0)
                 .from(anime)
-                .leftJoin(anime.animeStar, animeStar)
+                .leftJoin(animeStar)
                 .on(animeStar.anime.id.eq(anime.id))
+                .leftJoin(animeImg)
+                .on(animeImg.anime.id.eq(anime.id))
                 .where(anime.id.eq(animeId))
                 .fetchOne();
 
@@ -69,24 +75,7 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
             throw new AnimeHandler(ErrorStatus.ANIME_NOT_FOUND);
         }
 
-        // Anime 이미지 리스트
-        List<String> imageUrls = queryFactory
-                .select(animeImg.imageUrl)
-                .from(animeImg)
-                .where(animeImg.anime.id.eq(animeId))
-                .orderBy(animeImg.id.asc()) // or isMain, priority 등
-                .fetch();
-
         // Character 리스트 QueryProjection
-        // Character 대표 이미지 1장
-        JPQLQuery<String> characterImgExpr = JPAExpressions
-                .select(characterImg.imageUrl)
-                .from(characterImg)
-                .where(characterImg.character.eq(character))
-                .orderBy(characterImg.id.asc())
-                .limit(1);
-
-        // Characters
         List<CharacterPreviewDto> characters = queryFactory
                 .select(new QCharacterPreviewDto(
                         character.id,
@@ -94,9 +83,11 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
                         character.nameEng,
                         character.nameKanji,
                         character.cv,
-                        characterImgExpr
+                        characterImg.thumbnailUrl
                 ))
                 .from(character)
+                .leftJoin(characterImg)
+                .on(characterImg.character.id.eq(character.id))
                 .where(character.anime.id.eq(animeId))
                 .orderBy(character.id.asc())  // id 정렬
                 .fetch();
@@ -115,8 +106,8 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
                 .officalSite(animeData.get(anime.officalSite))
                 .otts(animeData.get(anime.otts))
                 .minAge(animeData.get(anime.minAge))
+                .imageUrl(animeData.get(animeImg.imageUrl))
 
-                .imageUrls(imageUrls)
                 .starDistributeDto(StarDistributeDto.builder()
                         .star_0_5(animeData.get(animeStar.star_0_5))
                         .star_1_0(animeData.get(animeStar.star_1_0))

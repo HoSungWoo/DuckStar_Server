@@ -67,15 +67,14 @@ public class Anime extends BaseEntity {
     private String minAge;    // 시청 등급
 
     @OneToOne(mappedBy = "anime")
+    private AnimeImg animeImg;
+
+    @OneToOne(mappedBy = "anime")
     private AnimeStar animeStar;
 
     @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL)
     @Builder.Default
     private List<AnimeRankWeekly> animeRankWeeklies = new ArrayList<>();
-
-    @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<AnimeImg> animeImgs = new ArrayList<>();
 
     @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL)
     @Builder.Default
