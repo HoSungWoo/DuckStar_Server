@@ -47,9 +47,8 @@ public class AnimeStar extends BaseEntity {
         star_5_0 = 0;
     }
 
-    public void starCount(Float rating) {
-        int switchRating = Math.round(rating * 2);
-        switch (switchRating) {
+    public void starCount(Integer starInt) {
+        switch (starInt) {
             case 1 -> this.star_0_5 += 1;
             case 2 -> this.star_1_0 += 1;
             case 3 -> this.star_1_5 += 1;
@@ -64,5 +63,24 @@ public class AnimeStar extends BaseEntity {
             default -> throw new AnimeHandler(
                     ErrorStatus.ANIME_STAR_NOT_VALID);
         }
+    }
+
+    public int getTotalVotes() {
+        return star_0_5 + star_1_0 + star_1_5 + star_2_0 + star_2_5 +
+                star_3_0 + star_3_5 + star_4_0 + star_4_5 + star_5_0;
+    }
+
+    public double getTotalStars() {
+        return star_0_5 * 0.5 + star_1_0 * 1.0 +
+                star_1_5 * 1.5 + star_2_0 * 2.0 +
+                star_2_5 * 2.5 + star_3_0 * 3.0 +
+                star_3_5 * 3.5 + star_4_0 * 4.0 +
+                star_4_5 * 4.5 + star_5_0 * 5.0;
+    }
+
+    public double getAverageStars() {
+        int totalVotes = getTotalVotes();
+        if (totalVotes == 0) return 0.0;
+        return getTotalStars() / totalVotes;
     }
 }
