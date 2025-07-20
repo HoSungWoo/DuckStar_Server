@@ -9,6 +9,14 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@Table(
+        indexes = {
+                @Index(name = "idx_week_ip", columnList = "week_id, ip_address")
+        },
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"week_id", "ip_address"}),
+        }
+)
 public class IpVoteRecord extends BaseEntity {
 
     @Id
@@ -20,6 +28,6 @@ public class IpVoteRecord extends BaseEntity {
     private Week week;
 
     // 비회원 투표자 IP 주소
-    @Column(length = 45)
-    private String ipAddress;   // member나 ipAddress 둘 중 하나만 있어야함 <- 검증 필요
+    @Column(length = 45, nullable = false)
+    private String ipAddress;
 }

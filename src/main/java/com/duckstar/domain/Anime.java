@@ -10,6 +10,7 @@ import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +47,10 @@ public class Anime extends BaseEntity {
     private String director;    // 감독
 
     @Column(length = 10)
-    private String airDate;     // 방영일
+    private LocalDate airDate;     // 방영일
+
+    // 신작이 아니고 이전 분기에서 넘어왔는지 여부
+    private Boolean isCarriedOver;
 
     @Column(length = 5)
     private String airTime;     // 방영 시간
@@ -57,7 +61,7 @@ public class Anime extends BaseEntity {
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Builder.Default
-    private Map<String, String> officalSite = new HashMap<>();     // 관련 사이트
+    private Map<String, String> officialSite = new HashMap<>();     // 관련 사이트
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Builder.Default

@@ -6,6 +6,8 @@ import com.duckstar.domain.mapping.character.CharacterRankWeekly;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,11 +16,18 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@Table(
+        indexes = {
+                @Index(name = "idx_start_date_time", columnList = "start_date_time")
+        }
+)
 public class Week extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private LocalDateTime startDateTime;    // 주간 시작시간 (일요일 22시~)
 
     private Integer year;       // 2025
 
