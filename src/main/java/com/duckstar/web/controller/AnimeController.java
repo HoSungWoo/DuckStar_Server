@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -21,7 +22,7 @@ public class AnimeController {
     private final AnimeRepository animeRepository;
 
     @Operation(summary = "애니 홈 API",
-            description = "애니메이션 홈 정보를 조회합니다.")
+            description = "애니메이션 홈 정보 조회")
     @GetMapping("/{animeId}")
     public ApiResponse<AnimeResponseDto.AnimeHomeDto> getAnimeHomeById(
             @PathVariable Long animeId) {

@@ -24,4 +24,18 @@ public class CharacterResponseDto {
 
         StarDistributeDto starDistributeDto;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class CharacterPreviewDto {
+        Long characterId;
+        String nameKor;
+        String nameEng;
+        String nameKanji;
+        String cv;
+
+        String thumbnailUrl;
+    }
 }

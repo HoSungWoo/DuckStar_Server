@@ -39,3 +39,6 @@ out/
 ### application.yml ###
 src/main/resources/application.yml
 src/test/resources/application.yml
+
+### 테스트용 웹 프론트 ###
+/frontend/

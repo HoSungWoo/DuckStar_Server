@@ -3,9 +3,11 @@ package com.duckstar.web.dto;
 import com.duckstar.domain.enums.DayOfWeekShort;
 import com.duckstar.domain.enums.Medium;
 import com.duckstar.web.dto.AniCommentResponseDto.AniCommentPreviewDto;
+import com.duckstar.web.dto.CharacterResponseDto.CharacterPreviewDto;
 import com.duckstar.web.dto.StarInfoDto.StarDistributeDto;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -42,21 +44,6 @@ public class AnimeResponseDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class AnimeVotePreviewsPage {
-        List<AnimeVotePreviewDto> animePreviews;
-
-        // 페이징 관련
-        Integer listSize;
-        Integer totalPage;
-        Long totalElements;
-        Boolean isFirst;
-        Boolean isLast;
-    }
-
-    @Builder
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class AnimeHomeDto {
         Medium medium;  // 분류 (TVA/MOVIE)
         String nameKor;  // 한글 제목
@@ -65,7 +52,7 @@ public class AnimeResponseDto {
         String corp;    // 제작사
         String author;  // 원작
         String director;    // 감독
-        String airDate;     // 방영일
+        LocalDate airDate;     // 방영일
         String airTime;     // 방영 시간
         DayOfWeekShort dayOfWeek;   // 방영 요일
         Map<String, String> officalSite;     // 관련 사이트
