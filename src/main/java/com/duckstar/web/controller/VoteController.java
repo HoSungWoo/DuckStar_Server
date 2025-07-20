@@ -1,7 +1,10 @@
 package com.duckstar.web.controller;
 
 import com.duckstar.apiPayload.ApiResponse;
+import com.duckstar.service.AnimeService;
 import com.duckstar.service.VoteService;
+import com.duckstar.web.dto.AnimeResponseDto;
+import com.duckstar.web.dto.AnimeResponseDto.AnimeVotePreviewsPage;
 import com.duckstar.web.dto.VoteRequestDto.AnimeStarDtoList;
 import com.duckstar.web.dto.VoteRequestDto.CharacterStarDtoList;
 import com.duckstar.web.dto.VoteResponseDto.VoteResultDto;
@@ -15,12 +18,13 @@ import org.springframework.web.bind.annotation.*;
 public class VoteController {
 
     private final VoteService voteService;
+    private final AnimeService animeService;
 
     /**
      * 애니메이션 투표
      */
     @GetMapping("/anime")
-    public ApiResponse<Void> getAnimeList() {
+    public ApiResponse<AnimeVotePreviewsPage> getAnimeList() {
         return null;
     }
 

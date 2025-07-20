@@ -32,6 +32,31 @@ public class AnimeResponseDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
+    public static class AnimeVotePreviewDto {
+        Long animeId;
+        String nameKor;  // 한글 제목
+        String thumbnailUrl;  // 썸네일
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class AnimeVotePreviewsPage {
+        List<AnimeVotePreviewDto> animePreviews;
+
+        // 페이징 관련
+        Integer listSize;
+        Integer totalPage;
+        Long totalElements;
+        Boolean isFirst;
+        Boolean isLast;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class AnimeHomeDto {
         Medium medium;  // 분류 (TVA/MOVIE)
         String nameKor;  // 한글 제목

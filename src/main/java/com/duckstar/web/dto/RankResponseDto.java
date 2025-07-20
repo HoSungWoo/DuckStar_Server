@@ -13,9 +13,8 @@ public class RankResponseDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class AnimeRankPage {
-
-        List<AnimeResponseDto.AnimeRankDto> items;
+    public static class AnimeRanksPage {
+        List<AnimeResponseDto.AnimeRankDto> animeRanks;
 
         // 페이징 관련
         Integer listSize;
@@ -29,9 +28,8 @@ public class RankResponseDto {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class CharacterRankPage {
-
-        List<CharacterResponseDto.CharacterRankDto> items;
+    public static class CharacterRanksPage {
+        List<CharacterResponseDto.CharacterRankDto> characterRanks;
 
         // 페이징 관련
         Integer listSize;
