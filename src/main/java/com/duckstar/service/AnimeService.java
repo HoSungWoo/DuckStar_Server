@@ -1,17 +1,13 @@
 package com.duckstar.service;
 
-import com.duckstar.apiPayload.code.status.ErrorStatus;
-import com.duckstar.apiPayload.exception.handler.AnimeHandler;
-import com.duckstar.domain.Anime;
-import com.duckstar.domain.AnimeImg;
-import com.duckstar.domain.AnimeStar;
+import com.duckstar.domain.Week;
+import com.duckstar.domain.mapping.anime.AnimeRecordWeekly;
+import com.duckstar.repository.AnimeRecordWeeklyRepository;
 import com.duckstar.repository.AnimeRepository.AnimeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -20,4 +16,12 @@ import java.util.List;
 public class AnimeService {
 
     private final AnimeRepository animeRepository;
+    private final AnimeRecordWeeklyRepository animeRecordWeeklyRepository;
+    private final WeekService weekService;
+
+    public List<AnimeRecordWeekly> getCurrentRecords() {
+        Week currentWeek = weekService.getCurrentWeek();
+        Long weekId = currentWeek.getId();
+        return animeRecordWeeklyRepository.findAllByWeekIdOrderByAnime_NameKorAsc(weekId);
+    }
 }

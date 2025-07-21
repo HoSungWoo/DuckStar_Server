@@ -1,9 +1,8 @@
 package com.duckstar.domain;
 
 import com.duckstar.domain.common.BaseEntity;
-import com.duckstar.domain.mapping.anime.AnimeRankWeekly;
 import com.duckstar.domain.mapping.character.CharacterComment;
-import com.duckstar.domain.mapping.character.CharacterRankWeekly;
+import com.duckstar.domain.mapping.character.CharacterRecordWeekly;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -40,7 +39,7 @@ public class Character extends BaseEntity {
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     @Builder.Default
-    private List<CharacterRankWeekly> characterRankWeeklies = new ArrayList<>();
+    private List<CharacterRecordWeekly> characterRecordWeeklies = new ArrayList<>();
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
     @Builder.Default

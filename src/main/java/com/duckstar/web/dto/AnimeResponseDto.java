@@ -35,7 +35,7 @@ public class AnimeResponseDto {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class AnimeVotePreviewDto {
-        Long animeId;
+        Long animeRecordId;
         String nameKor;  // 한글 제목
         String thumbnailUrl;  // 썸네일
     }

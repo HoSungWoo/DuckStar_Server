@@ -1,10 +1,12 @@
 package com.duckstar.web.controller;
 
 import com.duckstar.apiPayload.ApiResponse;
-import com.duckstar.repository.AnimeRepository.AnimeRepository;
+import com.duckstar.apiPayload.code.status.ErrorStatus;
 import com.duckstar.service.AnimeService;
 import com.duckstar.service.VoteService;
-import com.duckstar.web.dto.AnimeResponseDto;
+import com.duckstar.service.VoteStatusManager;
+import com.duckstar.validation.annotation.CheckAnimeVoteOpen;
+import com.duckstar.validation.annotation.CheckCharacterVoteOpen;
 import com.duckstar.web.dto.AnimeResponseDto.AnimeVotePreviewDto;
 import com.duckstar.web.dto.VoteRequestDto.AnimeStarDtoList;
 import com.duckstar.web.dto.VoteRequestDto.CharacterStarDtoList;
@@ -23,25 +25,27 @@ import static com.duckstar.converter.AnimeConverter.toAnimeVotePreviews;
 @RequiredArgsConstructor
 public class VoteController {
 
-    private final AnimeRepository animeRepository;
     private final VoteService voteService;
     private final AnimeService animeService;
+    private final VoteStatusManager voteStatusManager;
 
     /**
      * 애니메이션 투표
      */
-    @Operation(summary = "현재 분기 애니메이션 전체 조회 API",
-            description = "투표를 위해 가나다 순 정렬된 현재 분기 애니메이션 리스트")
+    @Operation(summary = "이번 주차 애니 Record 리스트 전체 조회 API",
+            description = "투표를 위해 가나다 순 정렬, 이번 주 투표 기록용 Record 리스트")
     @GetMapping("/anime")
-    public ApiResponse<List<AnimeVotePreviewDto>> getCurrentQuarterAnimes() {
-        return ApiResponse.onSuccess(
-                toAnimeVotePreviews(animeRepository.getCurrentQuarterAnimes()));
+    @CheckAnimeVoteOpen
+    public ApiResponse<List<AnimeVotePreviewDto>> getCurrentAnimeRecords() {
+            return ApiResponse.onSuccess(
+                    toAnimeVotePreviews(animeService.getCurrentRecords()));
     }
 
-    @Operation(summary = "현재 분기 애니메이션 투표 API",
-            description = "애니메이션들에 별점을 반영, 투표 시 투표자의 IP 주소를 서버가 DB에 기록, " +
+    @Operation(summary = "이번 주차 애니 투표 API",
+            description = "이번 주차 애니 Record에 별점을 기록, 투표 시 투표자의 IP 주소를 서버가 DB에 기록, " +
                     "중복 투표 방지 (투표자의 IP 주소 검사, 로그인 회원의 경우 최근 투표 시간 검사)")
     @PostMapping("/anime")
+    @CheckAnimeVoteOpen
     public ApiResponse<VoteResultDto> submitAnimeVote(HttpServletRequest httpRequest,
                                                       @RequestBody AnimeStarDtoList request) {
         String clientIp = voteService.getClientIp(httpRequest);
@@ -52,11 +56,13 @@ public class VoteController {
      * 캐릭터 투표
      */
     @GetMapping("/character")
-    public ApiResponse<Void> getCharacterList() {
+    @CheckCharacterVoteOpen
+    public ApiResponse<Void> getCurrentCharacterRecords() {
         return null;
     }
 
     @PostMapping("/character")
+    @CheckCharacterVoteOpen
     public ApiResponse<VoteResultDto> submitCharacterVote(HttpServletRequest httpRequest,
                                                           @RequestBody CharacterStarDtoList request) {
 

@@ -4,7 +4,7 @@ import com.duckstar.domain.common.BaseEntity;
 import com.duckstar.domain.enums.DayOfWeekShort;
 import com.duckstar.domain.enums.Medium;
 import com.duckstar.domain.mapping.anime.AnimeComment;
-import com.duckstar.domain.mapping.anime.AnimeRankWeekly;
+import com.duckstar.domain.mapping.anime.AnimeRecordWeekly;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -49,8 +49,8 @@ public class Anime extends BaseEntity {
     @Column(length = 10)
     private LocalDate airDate;     // 방영일
 
-    // 신작이 아니고 이전 분기에서 넘어왔는지 여부
-    private Boolean isCarriedOver;
+    // 신작이 아니고, 이전 분기에서 넘어와서 방영중인지 여부
+    private Boolean isContinuing;
 
     @Column(length = 5)
     private String airTime;     // 방영 시간
@@ -78,7 +78,7 @@ public class Anime extends BaseEntity {
 
     @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL)
     @Builder.Default
-    private List<AnimeRankWeekly> animeRankWeeklies = new ArrayList<>();
+    private List<AnimeRecordWeekly> animeRecordWeeklies = new ArrayList<>();
 
     @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL)
     @Builder.Default

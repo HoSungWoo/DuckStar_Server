@@ -1,12 +1,11 @@
 package com.duckstar.domain;
 
 import com.duckstar.domain.common.BaseEntity;
-import com.duckstar.domain.mapping.anime.AnimeRankWeekly;
-import com.duckstar.domain.mapping.character.CharacterRankWeekly;
+import com.duckstar.domain.mapping.anime.AnimeRecordWeekly;
+import com.duckstar.domain.mapping.character.CharacterRecordWeekly;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +35,8 @@ public class Week extends BaseEntity {
     private Integer weekNumber;     // 11 주차
 
     // 스타 총 개수
-    private Integer animeStarsTotal;
-    private Integer characterStarsTotal;
+    private Float animeStarTotal;
+    private Float characterStarTotal;
 
     @OneToMany(mappedBy = "week", cascade = CascadeType.ALL)
     @Builder.Default
@@ -45,9 +44,9 @@ public class Week extends BaseEntity {
 
     @OneToMany(mappedBy = "week", cascade = CascadeType.ALL)
     @Builder.Default
-    private List<AnimeRankWeekly> animeRankWeeklies = new ArrayList<>();
+    private List<AnimeRecordWeekly> animeRecordWeeklies = new ArrayList<>();
 
     @OneToMany(mappedBy = "week", cascade = CascadeType.ALL)
     @Builder.Default
-    private List<CharacterRankWeekly> characterRankWeeklies = new ArrayList<>();
+    private List<CharacterRecordWeekly> characterRecordWeeklies = new ArrayList<>();
 }

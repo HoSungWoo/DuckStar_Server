@@ -130,7 +130,7 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
         // 이번 분기 신작 애니
         builder.or(anime.airDate.between(quarterStart, quarterEnd));
         // 이전 분기에서 넘어온 애니
-        builder.or(anime.isCarriedOver.isTrue());
+        builder.or(anime.isContinuing.isTrue());
 
         // 데이터 조회
         return queryFactory

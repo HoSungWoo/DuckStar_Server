@@ -14,6 +14,6 @@ public class VoteResponseDto {
     public static class VoteResultDto {
         String ipAddress;
         Integer votedItemsCount;
-        Integer totalStars;
+        Integer starTotal;
     }
 }

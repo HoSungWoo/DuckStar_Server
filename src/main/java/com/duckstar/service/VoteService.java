@@ -19,7 +19,6 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Service
@@ -31,6 +30,7 @@ public class VoteService {
     private final IpVoteRecordRepository ipVoteRecordRepository;
     private final MemberRepository memberRepository;
     private final AnimeStarService animeStarService;
+    private final WeekService weekService;
 
     public String getClientIp(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
@@ -42,13 +42,12 @@ public class VoteService {
         return ip;
     }
 
-    @Transactional
+    @Transactional                 //TODO custom annotation
     public VoteResultDto voteAnime(String ipAddress, AnimeStarDtoList request) {
-        Week week = weekRepository.findTopByOrderByStartDateTimeDesc().orElseThrow(() ->
-                new WeekHandler(ErrorStatus.WEEK_NOT_FOUND));
+        Week week = weekService.getCurrentWeek();
 
         // 중복 투표 IP 검사
-        if (ipVoteRecordRepository.findByWeekAndIpAddress(week, ipAddress).isPresent()) {
+        if (ipVoteRecordRepository.findByWeekIdAndIpAddress(week.getId(), ipAddress).isPresent()) {
             throw new VoteHandler(ErrorStatus.ALREADY_VOTED_IP);
         }
 
@@ -66,12 +65,14 @@ public class VoteService {
             }
         }
 
+        // 투표 기록
         int votedItemsCount = 0;
-        int totalStars = 0;
+        int starTotal = 0;
         for (VoteRequestDto.AnimeStarDto dto : request.getAnimeStarList()) {
             Integer starInt = dto.getStarInt();
-            animeStarService.voteAnime(dto.getAnimeId(), starInt);  // 실제 투표 반영
-            totalStars += starInt;
+            animeStarService.voteAnime(
+                    dto.getAnimeRecordId(), starInt);  // 실제 투표 반영
+            starTotal += starInt;
             votedItemsCount++;
         }
 
@@ -91,11 +92,11 @@ public class VoteService {
         if (member != null) member.setLastAnimeVoteAt();
 
         // 누적 투표 수 Week 테이블에 반영
-        weekRepository.incrementAnimeStarsTotal(week.getId(), totalStars);
+        weekRepository.incrementAnimeStarTotal(week.getId(), starTotal);
 
         return VoteResultDto.builder()
                 .ipAddress(ipAddress)
-                .totalStars(totalStars)
+                .starTotal(starTotal)
                 .votedItemsCount(votedItemsCount)
                 .build();
     }

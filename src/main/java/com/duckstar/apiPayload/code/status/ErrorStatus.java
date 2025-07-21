@@ -30,6 +30,7 @@ public enum ErrorStatus implements BaseErrorCode {
     // 투표
     ALREADY_VOTED_IP(HttpStatus.BAD_REQUEST, "VOTE4001", "이미 투표한 IP입니다."),
     ALREADY_VOTED_MEMBER(HttpStatus.BAD_REQUEST, "VOTE4002", "이미 투표한 회원입니다."),
+    VOTE_CLOSED(HttpStatus.BAD_REQUEST, "VOTE4003", "투표가 진행 중이 아닙니다."),
 
     // 멤버
     MEMBER_NOT_FOUND(HttpStatus.BAD_REQUEST, "MEMBER4001", "존재하지 않는 회원입니다."),
