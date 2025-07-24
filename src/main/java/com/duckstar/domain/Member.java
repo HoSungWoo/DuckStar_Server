@@ -3,8 +3,10 @@ package com.duckstar.domain;
 import com.duckstar.domain.common.BaseEntity;
 import com.duckstar.domain.mapping.anime.AnimeComment;
 import com.duckstar.domain.mapping.anime.AnimeCommentLike;
+import com.duckstar.domain.mapping.anime.AnimeVote;
 import com.duckstar.domain.mapping.character.CharacterComment;
 import com.duckstar.domain.mapping.character.CharacterCommentLike;
+import com.duckstar.domain.mapping.character.CharacterVote;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,8 +17,6 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 public class Member extends BaseEntity {
 
     @Id
@@ -52,25 +52,23 @@ public class Member extends BaseEntity {
      * 애니메이션
      */
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    @Builder.Default
     private List<AnimeComment> animeComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    @Builder.Default
     private List<AnimeCommentLike> animeCommentLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<AnimeVote> animeVotes = new ArrayList<>();
 
     /**
      * 캐릭터
      */
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    @Builder.Default
     private List<CharacterComment> characterComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    @Builder.Default
     private List<CharacterCommentLike> characterCommentLikes = new ArrayList<>();
 
-    public void setLastAnimeVoteAt() {
-        this.lastAnimeVoteAt = LocalDateTime.now();
-    }
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<CharacterVote> characterVotes = new ArrayList<>();
 }

@@ -1,23 +1,22 @@
 package com.duckstar.domain;
 
 import com.duckstar.domain.common.BaseEntity;
-import com.duckstar.domain.mapping.anime.AnimeRecordWeekly;
-import com.duckstar.domain.mapping.character.CharacterRecordWeekly;
+import com.duckstar.domain.enums.TwinPolicy;
+import com.duckstar.globalUtil.QuarterUtil;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 @Table(
         indexes = {
-                @Index(name = "idx_start_date_time", columnList = "start_date_time")
+                @Index(name = "idx_week_yqw", columnList = "year, quarter, week_number")
+        },
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"year", "quarter", "week_number"})
         }
 )
 public class Week extends BaseEntity {
@@ -26,7 +25,8 @@ public class Week extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime startDateTime;    // 주간 시작시간 (일요일 22시~)
+    private LocalDate startDate;    // 주간 시작일 (요일은 일요일)
+    private LocalDate endDate;    // 투표 마감일 (start + 7일)
 
     private Integer year;       // 2025
 
@@ -34,19 +34,53 @@ public class Week extends BaseEntity {
 
     private Integer weekNumber;     // 11 주차
 
+    private Boolean isTwin;     // 분기가 바뀌는 주차는 쌍둥이 (예: 6월 5주차 & 7월 1주차)
+
+    // 투표자 수
+    private Integer animeVoteCount = 0;
+    private Integer characterVoteCount = 0;
+
     // 스타 총 개수
-    private Float animeStarTotal;
-    private Float characterStarTotal;
+    private Float animeStarTotal = 0f;
+    private Float characterStarTotal = 0f;
 
-    @OneToMany(mappedBy = "week", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<IpVoteRecord> ipVoteRecords = new ArrayList<>();
+    private Week(
+            LocalDate startDate,
+            LocalDate endDate,
+            Integer year,
+            Integer quarter,
+            Integer weekNumber,
+            Boolean isTwin
+    ) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.year = year;
+        this.quarter = quarter;
+        this.weekNumber = weekNumber;
+        this.isTwin = isTwin;
+    }
 
-    @OneToMany(mappedBy = "week", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<AnimeRecordWeekly> animeRecordWeeklies = new ArrayList<>();
+    //==생성 메서드==//
+    public static Week create(LocalDate startDate, LocalDate endDate, TwinPolicy policy) {
+        int year = startDate.getYear();
+        int quarterOfStartDate = QuarterUtil.getQuarterValue(startDate);
+        int weekNumber = QuarterUtil.calculateWeekNumber(startDate);
 
-    @OneToMany(mappedBy = "week", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<CharacterRecordWeekly> characterRecordWeeklies = new ArrayList<>();
+        boolean isTwin;
+        if (policy == TwinPolicy.FORCE_TWIN) {
+            isTwin = true;
+        } else {
+            int quarterOfEndDate = QuarterUtil.getQuarterValue(endDate);
+            isTwin = (quarterOfStartDate != quarterOfEndDate);
+        }
+
+        return new Week(
+                startDate,
+                endDate,
+                year,
+                quarterOfStartDate,
+                weekNumber,
+                isTwin
+        );
+    }
 }

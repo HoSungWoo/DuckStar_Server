@@ -11,8 +11,6 @@ public class RankResponseDto {
 
     @Builder
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class AnimeRanksPage {
         List<AnimeResponseDto.AnimeRankDto> animeRanks;
 
@@ -26,8 +24,6 @@ public class RankResponseDto {
 
     @Builder
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class CharacterRanksPage {
         List<CharacterResponseDto.CharacterRankDto> characterRanks;
 

@@ -10,31 +10,23 @@ import lombok.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 public class CharacterStar extends BaseEntity {
 
     @Id
     private Long id;
-    @MapsId  // Character의 id와 동일
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ani_character_id", nullable = false)
+    @MapsId  // Anime 에 종속 관계
+    @OneToOne   // 포함 관계, EAGER
+    @JoinColumn(name = "character_id")
     private Character character;
 
+    private Integer starTotal;
+
+    private Integer totalVoters;
     private Float starAverage;
-    private Float starTotal;
 
-    private Integer star_0_5;
     private Integer star_1_0;
-    private Integer star_1_5;
     private Integer star_2_0;
-    private Integer star_2_5;
     private Integer star_3_0;
-    private Integer star_3_5;
     private Integer star_4_0;
-    private Integer star_4_5;
     private Integer star_5_0;
-
-    //==비즈니스 로직==//
-
 }

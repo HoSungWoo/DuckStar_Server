@@ -15,8 +15,6 @@ public class AniCommentResponseDto {
 
     @Builder
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class AniCommentPreviewDto {
         // 글쓴이
         MemberProfileDto memberProfileDto;

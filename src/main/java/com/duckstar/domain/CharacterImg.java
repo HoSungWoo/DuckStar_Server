@@ -7,21 +7,18 @@ import lombok.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 public class CharacterImg extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @MapsId  // Anime 에 종속 관계
+    @OneToOne   // 포함 관계, EAGER
+    @JoinColumn(name = "character_id")
+    private Character character;
 
     @Column(length = 500)
     private String imageUrl;
 
     @Column(length = 500)
     private String thumbnailUrl;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ani_character_id", nullable = false)
-    private Character character;
 }

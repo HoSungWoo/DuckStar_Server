@@ -2,7 +2,8 @@ package com.duckstar.domain;
 
 import com.duckstar.domain.common.BaseEntity;
 import com.duckstar.domain.mapping.character.CharacterComment;
-import com.duckstar.domain.mapping.character.CharacterRecordWeekly;
+import com.duckstar.domain.mapping.character.CharacterRecord;
+import com.duckstar.domain.mapping.character.CharacterVote;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,13 +13,12 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
-@Table(name = "ani_character")
+@Table(name = "characters")  // MySQL 예약어 문제로 s 붙임
 public class Character extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "character_id")  // id 이름 명시
     private Long id;
 
     private String nameKor;
@@ -38,10 +38,11 @@ public class Character extends BaseEntity {
     private CharacterStar characterStar;
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<CharacterRecordWeekly> characterRecordWeeklies = new ArrayList<>();
+    private List<CharacterComment> characterComments = new ArrayList<>();
 
     @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<CharacterComment> characterComments = new ArrayList<>();
+    private List<CharacterVote> characterVotes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "character", cascade = CascadeType.ALL)
+    private List<CharacterRecord> characterRecords = new ArrayList<>();
 }

@@ -14,8 +14,6 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 public class AnimeComment extends BaseEntity {
 
     @Id
@@ -40,6 +38,5 @@ public class AnimeComment extends BaseEntity {
     private String body;
 
     @OneToMany(mappedBy = "animeComment", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
     private List<AnimeCommentLike> animeCommentLikes = new ArrayList<>();
 }

@@ -3,6 +3,7 @@ package com.duckstar.repository.AnimeRepository;
 import com.duckstar.apiPayload.code.status.ErrorStatus;
 import com.duckstar.apiPayload.exception.handler.AnimeHandler;
 import com.duckstar.domain.*;
+import com.duckstar.globalUtil.QuarterUtil;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
@@ -50,15 +51,10 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
                         anime.otts,
                         anime.minAge,
                         animeImg.imageUrl,
-                        animeStar.star_0_5,
                         animeStar.star_1_0,
-                        animeStar.star_1_5,
                         animeStar.star_2_0,
-                        animeStar.star_2_5,
                         animeStar.star_3_0,
-                        animeStar.star_3_5,
                         animeStar.star_4_0,
-                        animeStar.star_4_5,
                         animeStar.star_5_0)
                 .from(anime)
                 .leftJoin(animeStar).on(animeStar.anime.id.eq(anime.id))
@@ -102,15 +98,10 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
                 .imageUrl(animeData.get(animeImg.imageUrl))
 
                 .starDistributeDto(StarDistributeDto.builder()
-                        .star_0_5(animeData.get(animeStar.star_0_5))
                         .star_1_0(animeData.get(animeStar.star_1_0))
-                        .star_1_5(animeData.get(animeStar.star_1_5))
                         .star_2_0(animeData.get(animeStar.star_2_0))
-                        .star_2_5(animeData.get(animeStar.star_2_5))
                         .star_3_0(animeData.get(animeStar.star_3_0))
-                        .star_3_5(animeData.get(animeStar.star_3_5))
                         .star_4_0(animeData.get(animeStar.star_4_0))
-                        .star_4_5(animeData.get(animeStar.star_4_5))
                         .star_5_0(animeData.get(animeStar.star_5_0))
                         .build())
 
@@ -121,10 +112,9 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
     }
 
     public List<Anime> getCurrentQuarterAnimes() {
-
-        LocalDate now = LocalDate.now();
-        LocalDate quarterStart = QuarterUtil.getQuarterStart(now);
-        LocalDate quarterEnd = QuarterUtil.getQuarterEnd(now);
+        LocalDate today = LocalDate.now();
+        LocalDate quarterStart = QuarterUtil.getStartDateOfQuarter(today);
+        LocalDate quarterEnd = QuarterUtil.getEndDateOfQuarter(today);
 
         BooleanBuilder builder = new BooleanBuilder();
         // 이번 분기 신작 애니
@@ -133,8 +123,7 @@ public class AnimeRepositoryCustomImpl implements AnimeRepositoryCustom {
         builder.or(anime.isContinuing.isTrue());
 
         // 데이터 조회
-        return queryFactory
-                .selectFrom(anime)
+        return queryFactory.selectFrom(anime)
                 .where(builder)
                 .leftJoin(animeImg).on(animeImg.anime.id.eq(anime.id)).fetchJoin()
                 .orderBy(anime.nameKor.asc()) //TODO 가나다순? 인기순? 랜덤?

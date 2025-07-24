@@ -10,8 +10,6 @@ public class CharacterResponseDto {
 
     @Builder
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class CharacterRankDto {
         Long characterId;
         String nameKor;  // 캐릭터 한글 이름
@@ -27,8 +25,6 @@ public class CharacterResponseDto {
 
     @Builder
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class CharacterPreviewDto {
         Long characterId;
         String nameKor;

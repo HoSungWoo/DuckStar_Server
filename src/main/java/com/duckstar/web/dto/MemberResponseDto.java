@@ -9,8 +9,6 @@ public class MemberResponseDto {
 
     @Builder
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class MemberProfileDto {
         Long memberId;
         String name;

@@ -15,8 +15,6 @@ public class AnimeResponseDto {
 
     @Builder
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class AnimeRankDto {
         Long animeId;
         String nameKor;  // 한글 제목
@@ -32,8 +30,6 @@ public class AnimeResponseDto {
 
     @Builder
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class AnimeVotePreviewDto {
         Long animeRecordId;
         String nameKor;  // 한글 제목
@@ -42,8 +38,6 @@ public class AnimeResponseDto {
 
     @Builder
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class AnimeHomeDto {
         Medium medium;  // 분류 (TVA/MOVIE)
         String nameKor;  // 한글 제목

@@ -13,8 +13,6 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 public class CharacterComment extends BaseEntity {
 
     @Id
@@ -22,7 +20,7 @@ public class CharacterComment extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ani_character_id", nullable = false)
+    @JoinColumn(name = "character_id", nullable = false)
     private Character character;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -39,6 +37,5 @@ public class CharacterComment extends BaseEntity {
     private String body;
 
     @OneToMany(mappedBy = "characterComment", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
     private List<CharacterCommentLike> characterCommentLikes = new ArrayList<>();
 }

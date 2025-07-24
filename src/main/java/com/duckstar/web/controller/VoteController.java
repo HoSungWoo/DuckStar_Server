@@ -1,10 +1,8 @@
 package com.duckstar.web.controller;
 
 import com.duckstar.apiPayload.ApiResponse;
-import com.duckstar.apiPayload.code.status.ErrorStatus;
 import com.duckstar.service.AnimeService;
 import com.duckstar.service.VoteService;
-import com.duckstar.service.VoteStatusManager;
 import com.duckstar.validation.annotation.CheckAnimeVoteOpen;
 import com.duckstar.validation.annotation.CheckCharacterVoteOpen;
 import com.duckstar.web.dto.AnimeResponseDto.AnimeVotePreviewDto;
@@ -27,29 +25,33 @@ public class VoteController {
 
     private final VoteService voteService;
     private final AnimeService animeService;
-    private final VoteStatusManager voteStatusManager;
 
     /**
      * 애니메이션 투표
      */
-    @Operation(summary = "이번 주차 애니 Record 리스트 전체 조회 API",
+    @Operation(summary = "이번 주차 애니 리스트 전체 조회 API",
             description = "투표를 위해 가나다 순 정렬, 이번 주 투표 기록용 Record 리스트")
     @GetMapping("/anime")
     @CheckAnimeVoteOpen
-    public ApiResponse<List<AnimeVotePreviewDto>> getCurrentAnimeRecords() {
+    public ApiResponse<List<AnimeVotePreviewDto>> getUpcomingAnimeRecords() {
             return ApiResponse.onSuccess(
-                    toAnimeVotePreviews(animeService.getCurrentRecords()));
+                    toAnimeVotePreviews(null/*animeService.getUpcomingAnimes()*/));
+    }
+
+    @GetMapping("/anime-lameDuck")
+    public ApiResponse<List<AnimeVotePreviewDto>> getLameDuckAnimeRecords() {
+            return null;
     }
 
     @Operation(summary = "이번 주차 애니 투표 API",
-            description = "이번 주차 애니 Record에 별점을 기록, 투표 시 투표자의 IP 주소를 서버가 DB에 기록, " +
+            description = "이번 주차 애니에 별점을 기록, 투표 시 투표자의 IP 주소를 서버가 DB에 기록, " +
                     "중복 투표 방지 (투표자의 IP 주소 검사, 로그인 회원의 경우 최근 투표 시간 검사)")
     @PostMapping("/anime")
     @CheckAnimeVoteOpen
     public ApiResponse<VoteResultDto> submitAnimeVote(HttpServletRequest httpRequest,
                                                       @RequestBody AnimeStarDtoList request) {
         String clientIp = voteService.getClientIp(httpRequest);
-        return ApiResponse.onSuccess(voteService.voteAnime(clientIp, request));
+        return ApiResponse.onSuccess(/*voteService.voteAnime(clientIp, request)*/null);
     }
 
     /**

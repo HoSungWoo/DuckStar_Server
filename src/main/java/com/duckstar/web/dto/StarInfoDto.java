@@ -9,20 +9,13 @@ public class StarInfoDto {
 
     @Builder
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class StarDistributeDto {
         Float starAverage;
 
-        Integer star_0_5;
         Integer star_1_0;
-        Integer star_1_5;
         Integer star_2_0;
-        Integer star_2_5;
         Integer star_3_0;
-        Integer star_3_5;
         Integer star_4_0;
-        Integer star_4_5;
         Integer star_5_0;
 //
 //        public static StarDistributeDto from(AnimeStar animeStar) {

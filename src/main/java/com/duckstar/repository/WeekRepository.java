@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface WeekRepository extends JpaRepository<Week, Long> {
-    Optional<Week> findWeekTopByOrderByStartDateTimeDesc();
 
     @Modifying
     @Query("UPDATE Week w SET w.animeStarTotal = w.animeStarTotal + :starTotal WHERE w.id = :id")

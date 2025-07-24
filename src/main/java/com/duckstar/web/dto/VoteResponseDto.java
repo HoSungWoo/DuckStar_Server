@@ -9,8 +9,6 @@ public class VoteResponseDto {
 
     @Builder
     @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class VoteResultDto {
         String ipAddress;
         Integer votedItemsCount;

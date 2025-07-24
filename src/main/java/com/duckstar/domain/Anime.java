@@ -4,7 +4,8 @@ import com.duckstar.domain.common.BaseEntity;
 import com.duckstar.domain.enums.DayOfWeekShort;
 import com.duckstar.domain.enums.Medium;
 import com.duckstar.domain.mapping.anime.AnimeComment;
-import com.duckstar.domain.mapping.anime.AnimeRecordWeekly;
+import com.duckstar.domain.mapping.anime.AnimeRecord;
+import com.duckstar.domain.mapping.anime.AnimeVote;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
@@ -19,8 +20,6 @@ import java.util.Map;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 public class Anime extends BaseEntity {
 
     @Id
@@ -60,11 +59,9 @@ public class Anime extends BaseEntity {
     private DayOfWeekShort dayOfWeek;   // 방영 요일
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Builder.Default
     private Map<String, String> officialSite = new HashMap<>();     // 관련 사이트
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Builder.Default
     private Map<String, String> otts = new HashMap<>();  // OTT
 
     @Column(length = 5)
@@ -77,14 +74,14 @@ public class Anime extends BaseEntity {
     private AnimeStar animeStar;
 
     @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL)
-    @Builder.Default
-    private List<AnimeRecordWeekly> animeRecordWeeklies = new ArrayList<>();
-
-    @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL)
-    @Builder.Default
     private List<Character> characters = new ArrayList<>();
 
     @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL)
-    @Builder.Default
     private List<AnimeComment> animeComments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL)
+    private List<AnimeVote> animeVotes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "anime", cascade = CascadeType.ALL)
+    private List<AnimeRecord> animeRecords = new ArrayList<>();
 }
