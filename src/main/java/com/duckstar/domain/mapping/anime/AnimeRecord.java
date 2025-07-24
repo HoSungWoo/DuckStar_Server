@@ -1,6 +1,7 @@
 package com.duckstar.domain.mapping.anime;
 
 import com.duckstar.domain.Anime;
+import com.duckstar.domain.StarDistribution;
 import com.duckstar.domain.Week;
 import com.duckstar.domain.common.BaseEntity;
 import jakarta.persistence.*;
@@ -24,22 +25,54 @@ public class AnimeRecord extends BaseEntity {
     private Anime anime;
 
     /**
-     * 받은 별 개수는 아래가 모두 반영된 것
-     *  - 트렌드(투표자 수), 정성 평가(평균 별점)
+     * '받은 별 개수(starTotal)'
+     *  = 트렌드(투표자 수, totalVoters) * 정성 평가(평균 별점, starAverage)
      */
     private Integer starTotal;
+
+    private Integer totalVoters;
+
+    private Float starAverage;
+
+    @Embedded
+    private StarDistribution distribution;
 
     @Column(name = "`rank`")
     private Integer rank;
 
-    private Integer rankDiff;
+    private Integer rankDiff;   // 분기 신작의 경우 null
 
-    // 평균 별점
-    private Float starAverage;
+    private AnimeRecord(
+        Week week,
+        Anime anime,
+        Integer starTotal,
+        Integer totalVoters,
+        Float starAverage,
+        StarDistribution distribution
+    ) {
+        this.week = week;
+        this.anime = anime;
+        this.starTotal = starTotal;
+        this.totalVoters = totalVoters;
+        this.starAverage = starAverage;
+        this.distribution = distribution;
+    }
 
-    private Integer star_1_0;
-    private Integer star_2_0;
-    private Integer star_3_0;
-    private Integer star_4_0;
-    private Integer star_5_0;
+    public static AnimeRecord create(
+            Week week,
+            Anime anime,
+            Integer starTotal,
+            Integer totalVoters,
+            Float starAverage,
+            StarDistribution distribution
+    ) {
+        return new AnimeRecord(
+                week,
+                anime,
+                starTotal,
+                totalVoters,
+                starAverage,
+                distribution
+        );
+    }
 }

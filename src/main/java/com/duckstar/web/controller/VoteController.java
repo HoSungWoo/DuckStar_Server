@@ -1,8 +1,6 @@
 package com.duckstar.web.controller;
 
 import com.duckstar.apiPayload.ApiResponse;
-import com.duckstar.service.AnimeService;
-import com.duckstar.service.VoteService;
 import com.duckstar.validation.annotation.CheckAnimeVoteOpen;
 import com.duckstar.validation.annotation.CheckCharacterVoteOpen;
 import com.duckstar.web.dto.AnimeResponseDto.AnimeVotePreviewDto;
@@ -23,9 +21,6 @@ import static com.duckstar.converter.AnimeConverter.toAnimeVotePreviews;
 @RequiredArgsConstructor
 public class VoteController {
 
-    private final VoteService voteService;
-    private final AnimeService animeService;
-
     /**
      * 애니메이션 투표
      */
@@ -33,13 +28,13 @@ public class VoteController {
             description = "투표를 위해 가나다 순 정렬, 이번 주 투표 기록용 Record 리스트")
     @GetMapping("/anime")
     @CheckAnimeVoteOpen
-    public ApiResponse<List<AnimeVotePreviewDto>> getUpcomingAnimeRecords() {
+    public ApiResponse<List<AnimeVotePreviewDto>> getUpcomingAnimes() {
             return ApiResponse.onSuccess(
-                    toAnimeVotePreviews(null/*animeService.getUpcomingAnimes()*/));
+                    toAnimeVotePreviews(null));
     }
 
-    @GetMapping("/anime-lameDuck")
-    public ApiResponse<List<AnimeVotePreviewDto>> getLameDuckAnimeRecords() {
+    @GetMapping("/anime-double")
+    public ApiResponse<List<AnimeVotePreviewDto>> getDoubleYolkedAnimes() {
             return null;
     }
 
@@ -50,8 +45,8 @@ public class VoteController {
     @CheckAnimeVoteOpen
     public ApiResponse<VoteResultDto> submitAnimeVote(HttpServletRequest httpRequest,
                                                       @RequestBody AnimeStarDtoList request) {
-        String clientIp = voteService.getClientIp(httpRequest);
-        return ApiResponse.onSuccess(/*voteService.voteAnime(clientIp, request)*/null);
+//        String clientIp = voteService.getClientIp(httpRequest);
+        return ApiResponse.onSuccess(null);
     }
 
     /**

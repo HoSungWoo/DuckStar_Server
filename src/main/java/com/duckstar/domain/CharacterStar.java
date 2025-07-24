@@ -22,8 +22,10 @@ public class CharacterStar extends BaseEntity {
     private Integer starTotal;
 
     private Integer totalVoters;
+
     private Float starAverage;
 
+    // 별점 분포
     private Integer star_1_0;
     private Integer star_2_0;
     private Integer star_3_0;

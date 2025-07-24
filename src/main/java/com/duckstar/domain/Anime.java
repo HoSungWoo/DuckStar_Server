@@ -45,7 +45,6 @@ public class Anime extends BaseEntity {
     @Column(length = 100)
     private String director;    // 감독
 
-    @Column(length = 10)
     private LocalDate airDate;     // 방영일
 
     // 신작이 아니고, 이전 분기에서 넘어와서 방영중인지 여부

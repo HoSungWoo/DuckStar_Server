@@ -2,7 +2,6 @@ package com.duckstar.aop;
 
 import com.duckstar.apiPayload.code.status.ErrorStatus;
 import com.duckstar.apiPayload.exception.handler.VoteHandler;
-import com.duckstar.service.VoteStatusManager;
 import lombok.RequiredArgsConstructor;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
