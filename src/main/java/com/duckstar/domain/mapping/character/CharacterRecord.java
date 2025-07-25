@@ -26,6 +26,9 @@ public class CharacterRecord extends BaseEntity {
     @JoinColumn(name = "character_id", nullable = false)
     private Character character;
 
+    @Embedded
+    private StarDistribution distribution;
+
     /**
      * '받은 별 개수(starTotal)'
      *  = 트렌드(투표자 수, totalVoters) * 정성 평가(평균 별점, starAverage)
@@ -36,9 +39,6 @@ public class CharacterRecord extends BaseEntity {
 
     private Float starAverage;
 
-    @Embedded
-    private StarDistribution distribution;
-
     @Column(name = "`rank`")
     private Integer rank;
 
@@ -47,34 +47,35 @@ public class CharacterRecord extends BaseEntity {
     private CharacterRecord(
             Week week,
             Character character,
+            StarDistribution distribution,
             Integer starTotal,
             Integer totalVoters,
-            Float starAverage,
-            StarDistribution distribution
+            Float starAverage
     ) {
         this.week = week;
         this.character = character;
+        this.distribution = distribution;
         this.starTotal = starTotal;
         this.totalVoters = totalVoters;
         this.starAverage = starAverage;
-        this.distribution = distribution;
     }
 
     public static CharacterRecord create(
             Week week,
             Character character,
-            Integer starTotal,
-            Integer totalVoters,
-            Float starAverage,
             StarDistribution distribution
     ) {
+        float starAverage = distribution.calculateAverage();
+        int totalVoters = distribution.getTotalCount();
+        int starTotal = (int) (totalVoters * starAverage);
+
         return new CharacterRecord(
                 week,
                 character,
+                distribution,
                 starTotal,
                 totalVoters,
-                starAverage,
-                distribution
+                starAverage
         );
     }
 }

@@ -24,6 +24,9 @@ public class AnimeRecord extends BaseEntity {
     @JoinColumn(name = "anime_id", nullable = false)
     private Anime anime;
 
+    @Embedded
+    private StarDistribution distribution;
+
     /**
      * '받은 별 개수(starTotal)'
      *  = 트렌드(투표자 수, totalVoters) * 정성 평가(평균 별점, starAverage)
@@ -34,9 +37,6 @@ public class AnimeRecord extends BaseEntity {
 
     private Float starAverage;
 
-    @Embedded
-    private StarDistribution distribution;
-
     @Column(name = "`rank`")
     private Integer rank;
 
@@ -45,34 +45,35 @@ public class AnimeRecord extends BaseEntity {
     private AnimeRecord(
         Week week,
         Anime anime,
+        StarDistribution distribution,
         Integer starTotal,
         Integer totalVoters,
-        Float starAverage,
-        StarDistribution distribution
+        Float starAverage
     ) {
         this.week = week;
         this.anime = anime;
+        this.distribution = distribution;
         this.starTotal = starTotal;
         this.totalVoters = totalVoters;
         this.starAverage = starAverage;
-        this.distribution = distribution;
     }
 
     public static AnimeRecord create(
             Week week,
             Anime anime,
-            Integer starTotal,
-            Integer totalVoters,
-            Float starAverage,
             StarDistribution distribution
     ) {
+        float starAverage = distribution.calculateAverage();
+        int totalVoters = distribution.getTotalCount();
+        int starTotal = (int) (totalVoters * starAverage);
+
         return new AnimeRecord(
                 week,
                 anime,
+                distribution,
                 starTotal,
                 totalVoters,
-                starAverage,
-                distribution
+                starAverage
         );
     }
 }
